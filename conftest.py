@@ -10,11 +10,11 @@ class APIClient:
 
     def post(self, path="/", params=None, data=None, headers=None):
         url = self.base_address + path
-        return requests.post(url=url, params=params, data=data, headers=headers, verify=False, timeout=3)
+        return requests.post(url=url, params=params, data=data, headers=headers, verify=False)
 
     def get(self, path="/", params=None):
         url = self.base_address + path
-        return requests.get(url=url, params=params, verify=False, timeout=3)
+        return requests.get(url=url, params=params, verify=False)
 
 
 def pytest_addoption(parser):

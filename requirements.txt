@@ -1,3 +1,4 @@
 requests==2.23.0
 pytest==5.4.1
 allure-pytest==2.8.13
+selenium==3.141.0

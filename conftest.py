@@ -1,5 +1,6 @@
 import pytest
 import requests
+from selenium import webdriver
 
 
 class APIClient:
@@ -20,9 +21,15 @@ class APIClient:
 def pytest_addoption(parser):
     parser.addoption(
         "--url",
-        action="store",
         default="https://jsonplaceholder.typicode.com",
-        help="This is request url"
+    )
+    parser.addoption(
+        "--browser",
+        default="chrome",
+    )
+    parser.addoption(
+        "--executor",
+        default="127.0.0.1",
     )
 
 
@@ -30,3 +37,16 @@ def pytest_addoption(parser):
 def api_client(request):
     base_url = request.config.getoption("--url")
     return APIClient(base_address=base_url)
+
+
+@pytest.fixture
+def remote(request):
+    browser = request.config.getoption("--browser")
+    executor = request.config.getoption("--executor")
+    driver = webdriver.Remote(
+        command_executor=f"http://{executor}:4444/wd/hub",
+        desired_capabilities={"browserName": browser}
+    )
+    driver.maximize_window()
+    request.addfinalizer(driver.quit)
+    return driver

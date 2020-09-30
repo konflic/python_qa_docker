@@ -1,5 +1,7 @@
+import allure
 import pytest
 import requests
+import json
 from selenium import webdriver
 
 
@@ -29,7 +31,8 @@ def pytest_addoption(parser):
     )
     parser.addoption(
         "--executor",
-        default="127.0.0.1",
+        # Локальный ip адресс хоста где selenium
+        default="192.168.1.68",
     )
 
 
@@ -47,6 +50,7 @@ def remote(request):
         command_executor=f"http://{executor}:4444/wd/hub",
         desired_capabilities={"browserName": browser}
     )
+    allure.attach(body=json.dumps(driver.capabilities), attachment_type=allure.attachment_type.JSON)
     driver.maximize_window()
     request.addfinalizer(driver.quit)
     return driver

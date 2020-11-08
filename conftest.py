@@ -2,6 +2,7 @@ import allure
 import pytest
 import requests
 import json
+
 from selenium import webdriver
 
 
@@ -21,18 +22,14 @@ class APIClient:
 
 
 def pytest_addoption(parser):
-    parser.addoption(
-        "--url",
-        default="https://jsonplaceholder.typicode.com",
-    )
-    parser.addoption(
-        "--browser",
-        default="chrome",
-    )
+    parser.addoption("--url", default="https://jsonplaceholder.typicode.com")
+    parser.addoption("--browser", required=True)
     parser.addoption(
         "--executor",
-        # Локальный ip адресс хоста где selenium
-        default="192.168.1.68",
+        # ip адресс хоста где selenium grid и браузеры
+        # если работаем из докера то для него ваш localhost ВНЕШНИЙ адресс
+        # при каждом изменении файлов нужно пересоздать image
+        default="192.168.1.79",
     )
 
 
@@ -46,11 +43,16 @@ def api_client(request):
 def remote(request):
     browser = request.config.getoption("--browser")
     executor = request.config.getoption("--executor")
+
     driver = webdriver.Remote(
         command_executor=f"http://{executor}:4444/wd/hub",
         desired_capabilities={"browserName": browser}
     )
+
+    def fin():
+        driver.quit()
+        requests.delete(f"http://{executor}:4444/wd/hub/session/{driver.session_id}", verify=False)
+
     allure.attach(body=json.dumps(driver.capabilities), attachment_type=allure.attachment_type.JSON)
-    driver.maximize_window()
-    request.addfinalizer(driver.quit)
+    request.addfinalizer(fin)
     return driver

@@ -1,3 +1,6 @@
 env/
+venv/
 .git/
 .idea/
+allure/
+examples/

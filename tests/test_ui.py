@@ -1,7 +1,5 @@
 def test_google_0(remote):
     remote.get("https://google.ru")
-    remote.find_element_by_id("footer")
-    remote.find_element_by_id("hplogo")
     assert remote.title == "Google"
 
 

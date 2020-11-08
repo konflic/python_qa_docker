@@ -24,8 +24,7 @@ class APIClient:
 def pytest_addoption(parser):
     parser.addoption("--url", default="https://jsonplaceholder.typicode.com")
     parser.addoption("--browser", required=True)
-    parser.addoption(
-        "--executor",
+    parser.addoption("--executor",
         # ip адресс хоста где selenium grid и браузеры
         # если работаем из докера то для него ваш localhost ВНЕШНИЙ адресс
         # при каждом изменении файлов нужно пересоздать image

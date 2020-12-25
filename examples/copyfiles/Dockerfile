@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.6
 
 # Сатвим питон
 #RUN apt update -y

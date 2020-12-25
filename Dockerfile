@@ -6,12 +6,16 @@ FROM python:3.6
 # Будет в дальнешйем использовать как базовая
 WORKDIR /app
 
-# Копирую файлы из текущей рабочей папки в текущую рабочую контейнера
-COPY . .
+# Копирую сначала зависимости
+# Для того чтобы не пересобирать их каждый раз при сборке
+COPY requirements.txt .
 
 # Выполняю необходимые команды
 RUN pip install -U pip
 RUN pip install -r requirements.txt
+
+# Копирую остальные файлы проекта
+COPY . .
 
 # Предустанавливаем команду pytest и отчёт
 ENTRYPOINT ["pytest", "--alluredir", "allure-report"]

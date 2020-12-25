@@ -25,11 +25,11 @@ def pytest_addoption(parser):
     parser.addoption("--url", default="https://jsonplaceholder.typicode.com")
     parser.addoption("--browser", required=True)
     parser.addoption("--executor",
-        # ip адресс хоста где selenium grid и браузеры
-        # если работаем из докера то для него ваш localhost ВНЕШНИЙ адресс
-        # при каждом изменении файлов нужно пересоздать image
-        default="192.168.1.79",
-    )
+                     # ip адресс хоста где selenium grid и браузеры
+                     # если работаем из докера то для него ваш localhost ВНЕШНИЙ адресс
+                     # при каждом изменении файлов нужно пересоздать image
+                     default="192.168.1.79",
+                     )
 
 
 @pytest.fixture(scope="session")
@@ -47,6 +47,18 @@ def remote(request):
         command_executor=f"http://{executor}:4444/wd/hub",
         desired_capabilities={"browserName": browser}
     )
+
+    # Добавляю несколько методов allure
+    @allure.step("Открываю {url}")
+    def open_page(url):
+        driver.get(url)
+
+    @allure.step("Проверяю вхождение {target} значения в тайтл страницы")
+    def check_in_title(target):
+        assert target in driver.title
+
+    driver.open_page = open_page
+    driver.check_in_title = check_in_title
 
     def fin():
         driver.quit()

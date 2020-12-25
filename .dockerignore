@@ -2,6 +2,6 @@ env/
 venv/
 .git/
 .idea/
-allure/
 examples/
 README.md
+allure-report/

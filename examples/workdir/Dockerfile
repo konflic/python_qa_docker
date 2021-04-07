@@ -7,6 +7,7 @@ WORKDIR ./app
 
 COPY ./index.py ./index.py
 
+# Установка рабочей директории в корень
 WORKDIR /
 
-CMD ["ls"]
+CMD ["cat", "app/index.py"]

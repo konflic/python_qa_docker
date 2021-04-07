@@ -1,6 +1,6 @@
 FROM python:3.6
 
-# Сатвим питон
+# Сатвим питон руками
 #RUN apt update -y
 #RUN apt install software-properties-common -y
 #RUN add-apt-repository ppa:deadsnakes/ppa

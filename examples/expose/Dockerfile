@@ -8,4 +8,5 @@ COPY ./index.html ./index.html
 # docker run -p 80:8000
 EXPOSE 8000
 
+# Ещё один способ записать команду
 CMD python3 -m http.server

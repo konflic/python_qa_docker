@@ -4,7 +4,7 @@
 docker build -t tests .
 
 # Запускаем контейнер под именем test_run из image tests
-docker run --name test_run tests pytest --browser opera -n 2
+docker run --name test_run tests pytest --browser $1 -n $2
 
 # Копируем из контейнера созданный allure-report
 docker cp test_run:/app/allure-report .
@@ -15,4 +15,4 @@ docker cp test_run:/app/allure-report .
 ~/Downloads/allure/bin/allure serve allure-report
 
 # Удаляем из системы созданный контейнер
-docker system prune -f -a
+docker system prune -f

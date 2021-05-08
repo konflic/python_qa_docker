@@ -1,5 +1,5 @@
 # Устанавливаю базовый образ
-FROM python:3.6
+FROM python:3.6-alpine
 
 # Устанавливаю рабочую директорию внутри контейнера
 # Диретокрия будет создана если её не было
@@ -17,9 +17,6 @@ RUN pip install -r requirements.txt
 # Копирую остальные файлы проекта
 COPY . .
 
-# Предустанавливаем команду pytest и отчёт
-ENTRYPOINT ["pytest", "--alluredir", "allure-report"]
-
 # Этот параметр можно переопределить при СОЗДАНИИ контейнера т.е. run команде
 # Можно исапользовать так `docker run --rm my_tests --browser firefox`
-CMD ["--browser", "chrome"]
+CMD ["pytest", "--browser", "chrome"]

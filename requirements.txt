@@ -1,4 +1,4 @@
-requests==2.25.1
+requests==2.31.0
 pytest==6.2.3
 allure-pytest==2.8.40
 selenium==3.141.0
